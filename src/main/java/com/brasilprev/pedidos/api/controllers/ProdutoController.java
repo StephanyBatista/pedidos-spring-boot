@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/produto")
@@ -36,5 +37,15 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(produto);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> get() {
+        List<Produto> produtos = repositorio.findAll();
+
+        if(produtos == null || produtos.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(produtos);
     }
 }

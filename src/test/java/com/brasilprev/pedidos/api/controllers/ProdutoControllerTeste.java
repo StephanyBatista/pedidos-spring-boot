@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -47,7 +49,7 @@ public class ProdutoControllerTeste {
     }
 
     @Test
-    public void deve_obter_cliente(){
+    public void deve_obter_produto(){
         final long produtoId = 10l;
         when(repositorio.findById(produtoId)).thenReturn(Optional.of(produto));
 
@@ -57,10 +59,27 @@ public class ProdutoControllerTeste {
     }
 
     @Test
-    public void deve_retornar_nao_encontrado_quando_cliente_nao_existe(){
+    public void deve_retornar_nao_encontrado_quando_produto_nao_existe(){
         final long produtoId = 10l;
 
         ResponseEntity<?> response = controller.get(produtoId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void deve_obter_todos_produtos(){
+        List<Produto> produtos = Arrays.asList(mock(Produto.class));
+        when(repositorio.findAll()).thenReturn(produtos);
+
+        ResponseEntity<?> response = controller.get();
+
+        assertEquals(produtos, response.getBody());
+    }
+
+    @Test
+    public void deve_retornar_nao_encontrado_quando_nenhum_produto_cadastrado(){
+        ResponseEntity<?> response = controller.get();
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }

@@ -2,9 +2,7 @@ package com.brasilprev.pedidos.api.controllers;
 
 import com.brasilprev.pedidos.aplicacao.pedidos.NovoPedido;
 import com.brasilprev.pedidos.aplicacao.pedidos.PedidoDeProdutoDto;
-import com.brasilprev.pedidos.aplicacao.produtos.ProdutoDto;
 import com.brasilprev.pedidos.dominio.pedidos.Pedido;
-import com.brasilprev.pedidos.dominio.produtos.Produto;
 import com.brasilprev.pedidos.repositorio.PedidoRepositorio;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +31,7 @@ public class PedidoController {
     }
 
     @GetMapping("{id}")
-    ResponseEntity<?> post(@PathVariable long id) {
+    ResponseEntity<?> get(@PathVariable long id) {
         Pedido pedido = pedidoRepositorio.findById(id).orElse(null);
         if(pedido == null)
             return ResponseEntity.notFound().build();
